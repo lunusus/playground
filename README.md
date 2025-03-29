@@ -26,11 +26,6 @@ Run web application and open in a browser
 npx vite
 ```
 
-Create cubes and write data into json files
-```bash
-node node_scripts/server.js
-```
-
 ## Notes
 
 - bricks with different base (size), one can be placed on the same or bigger base
