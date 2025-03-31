@@ -17,11 +17,13 @@ npm install
 ## Usage
 
 Run local server if necessary
+
 ```bash
 npm run server
 ```
 
-Run web application and open in a browser 
+Run web application and open in a browser
+
 ```bash
 npx vite
 ```
