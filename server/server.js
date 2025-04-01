@@ -1,10 +1,10 @@
-const fs = require("node:fs");
-const express = require("express");
+import fs from "node:fs";
+import express from "express";
+import { default as BlockMaker } from "./../module/block-maker.js";
+
 const app = express();
 const port = 3000;
-const rootPath = __dirname + "/..";
-
-const dataPath = rootPath + "/data";
+const dataPath = "./data";
 
 // Middleware для CORS
 app.use((req, res, next) => {
@@ -26,16 +26,20 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/map", (req, res) => {
+  const data = fs.readFileSync(`${dataPath}/map.json`, { encoding: "utf8" });
+  res.json(JSON.parse(data));
+});
+
 app.get("/blocks/static", (req, res) => {
-  const data = fs.readFileSync(dataPath + "/blocks.json", { encoding: "utf8" });
+  const data = fs.readFileSync(`${dataPath}/blocks.json`, { encoding: "utf8" });
   res.json(JSON.parse(data));
 });
 
 app.get("/blocks", (req, res) => {
-  const block = require(rootPath + "/lib/block-maker");
   let data = [];
   for (let i = 0; i < 50; i++) {
-    data.push(block.default.create());
+    data.push(BlockMaker.create());
   }
   res.json(data);
 });

@@ -14,8 +14,8 @@ const CoordinateGenerator = (function () {
   function getArchimedeanSpiral(
     steps,
     rotations = 2,
-    spiralTightness = 5,
-    initialRadius = 50,
+    spiralTightness = 2,
+    initialRadius = 5,
   ) {
     const coordinates = [];
     const angleStep = (2 * Math.PI * rotations) / steps;

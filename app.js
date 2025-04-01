@@ -2,10 +2,10 @@ import * as THREE from "three";
 import { MapControls } from "three/examples/jsm/controls/MapControls.js";
 import { convert as convertColor, compare as compareColor } from "color-sorter";
 
-import ApiService from "./lib/api.js";
-import CoordinateGenerator from "./lib/coordinate-generator.js";
+import ApiService from "./module/api.js";
+import CoordinateGenerator from "./module/coordinate-generator.js";
 
-import { default as BlockMaker } from "./lib/block-maker.js";
+import { default as BlockMaker } from "./module/block-maker.js";
 
 let camera, controls, scene, renderer;
 let blocks,

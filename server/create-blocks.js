@@ -1,12 +1,11 @@
-const fs = require("node:fs");
-const rootPath = __dirname + "/..";
-const block = require(rootPath + "/lib/block-maker");
+import fs from "node:fs";
+import { default as BlockMaker } from "./../module/block-maker.js";
 
-const dataPath = rootPath + "/data";
+const dataPath = "./data";
 let blocks = [];
 
 for (let i = 0; i < 50; i++) {
-  blocks.push(block.default.create());
+  blocks.push(BlockMaker.create());
 }
 
 try {
