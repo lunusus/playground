@@ -100,9 +100,14 @@ function buildUp() {
   blocks.sort((a, b) => compareColor(a.convertedColor, b.convertedColor));
 
   // const coords = CoordinateGenerator.getSquareSpiral(blocks.length, 20);
-  const coords = CoordinateGenerator.getArchimedeanSpiral(blocks.length);
+  const coords = CoordinateGenerator.getArchimedeanSpiral(
+    blocks.length,
+    2,
+    2,
+    5,
+  );
 
-  const size = 20;
+  const stepSize = 20;
   let top = 0,
     step = 1;
   let coord = coords.shift();
@@ -117,7 +122,7 @@ function buildUp() {
     mesh.scale.y = block.scale.y;
     mesh.scale.z = block.scale.z;
 
-    if (block.convertedColor.hue < size * step) {
+    if (block.convertedColor.hue < stepSize * step) {
       coord.y = top;
     } else {
       step++;
@@ -153,7 +158,7 @@ function init() {
     1,
     1000,
   );
-  camera.position.set(0, 200, -400);
+  camera.position.set(0, 40, -40);
 
   // controls
 
@@ -167,14 +172,14 @@ function init() {
   controls.screenSpacePanning = false;
   controls.zoomToCursor = true;
 
-  controls.minDistance = 100;
-  controls.maxDistance = 1000;
+  controls.minDistance = 40;
+  controls.maxDistance = 200;
 
   controls.maxPolarAngle = Math.PI / 2;
 
   // grid
 
-  const gridHelper = new THREE.GridHelper(300, 30);
+  const gridHelper = new THREE.GridHelper(100, 100);
   scene.add(gridHelper);
 
   // lights
