@@ -1,11 +1,11 @@
 import fs from "node:fs";
-import { default as BlockMaker } from "./../module/block-maker.js";
+import Block from "./../module/block.js";
 
 const dataPath = "./data";
 let blocks = [];
 
 for (let i = 0; i < 50; i++) {
-  blocks.push(BlockMaker.create());
+  blocks.push(Block.create());
 }
 
 try {

@@ -1,11 +1,6 @@
 import * as THREE from "three";
 import { MapControls } from "three/examples/jsm/controls/MapControls.js";
-import { convert as convertColor, compare as compareColor } from "color-sorter";
-
 import ApiService from "./module/api.js";
-import CoordinateGenerator from "./module/coordinate-generator.js";
-
-import { default as BlockMaker } from "./module/block-maker.js";
 
 let camera, controls, scene, renderer;
 let blocks,
@@ -22,12 +17,13 @@ init();
 //render(); // remove when using animation loop
 
 // draw city
-setInterval(buildUp, 5000);
-buildUp();
+setInterval(draw, 5000);
+draw();
 
 async function fetchData() {
   try {
-    blocks = await ApiService.get("/blocks");
+    const mapData = await ApiService.get("/map");
+    blocks = mapData.blocks;
   } catch (error) {
     console.error("API Error:", error);
   }
@@ -45,24 +41,13 @@ function clearBlocks() {
 }
 
 /**
- * Set bricks horizontally, with optional sorting
+ * Draw map from json data
  */
-function build() {
+function draw() {
   clearBlocks();
 
   const geometry = new THREE.BoxGeometry();
   geometry.translate(0, 0.5, 0);
-
-  for (const block of blocks) {
-    block.convertedColor = convertColor(
-      "#" + BlockMaker.convertColorToHex(block.color),
-    );
-  }
-  // BlockMaker.sortByHeight(blocks);
-  blocks.sort((a, b) => compareColor(a.convertedColor, b.convertedColor));
-
-  // const coords = CoordinateGenerator.getSquareSpiral(blocks.length, 20);
-  const coords = CoordinateGenerator.getArchimedeanSpiral(blocks.length);
 
   for (const block of blocks) {
     const material = new THREE.MeshPhongMaterial({
@@ -70,74 +55,16 @@ function build() {
       flatShading: true,
     });
     const mesh = new THREE.Mesh(geometry, material);
-    const coord = coords.shift();
     mesh.scale.x = block.scale.x;
     mesh.scale.y = block.scale.y;
     mesh.scale.z = block.scale.z;
-    mesh.position.x = coord.x;
-    mesh.position.y = coord.y;
-    mesh.position.z = coord.z;
+    mesh.position.x = block.position.x;
+    mesh.position.y = block.position.y;
+    mesh.position.z = block.position.z;
     mesh.updateMatrix();
     mesh.matrixAutoUpdate = false;
     scene.add(mesh);
-  }
-}
-
-/**
- * Set bricks grouped by colors into columns
- */
-function buildUp() {
-  clearBlocks();
-
-  const geometry = new THREE.BoxGeometry();
-  geometry.translate(0, 0.5, 0);
-
-  for (const block of blocks) {
-    block.convertedColor = convertColor(
-      "#" + BlockMaker.convertColorToHex(block.color),
-    );
-  }
-  blocks.sort((a, b) => compareColor(a.convertedColor, b.convertedColor));
-
-  // const coords = CoordinateGenerator.getSquareSpiral(blocks.length, 20);
-  const coords = CoordinateGenerator.getArchimedeanSpiral(
-    blocks.length,
-    2,
-    2,
-    5,
-  );
-
-  const stepSize = 20;
-  let top = 0,
-    step = 1;
-  let coord = coords.shift();
-
-  for (const block of blocks) {
-    const material = new THREE.MeshPhongMaterial({
-      color: block.color,
-      flatShading: true,
-    });
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.scale.x = block.scale.x;
-    mesh.scale.y = block.scale.y;
-    mesh.scale.z = block.scale.z;
-
-    if (block.convertedColor.hue < stepSize * step) {
-      coord.y = top;
-    } else {
-      step++;
-      top = 0;
-      coord = coords.shift();
-    }
-    top += block.scale.y;
-
-    mesh.position.x = coord.x;
-    mesh.position.y = coord.y;
-    mesh.position.z = coord.z;
-    mesh.updateMatrix();
-    mesh.matrixAutoUpdate = false;
     bricks.push(mesh);
-    scene.add(mesh);
   }
 }
 

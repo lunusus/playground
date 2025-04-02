@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import express from "express";
-import { default as BlockMaker } from "./../module/block-maker.js";
+import Block from "./../module/block.js";
 
 const app = express();
 const port = 3000;
@@ -39,7 +39,7 @@ app.get("/blocks/static", (req, res) => {
 app.get("/blocks", (req, res) => {
   let data = [];
   for (let i = 0; i < 50; i++) {
-    data.push(BlockMaker.create());
+    data.push(Block.create());
   }
   res.json(data);
 });

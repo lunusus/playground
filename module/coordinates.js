@@ -1,11 +1,11 @@
-const CoordinateGenerator = (function () {
+const Coordinates = (function () {
   function getRandom(steps) {
     const coordinates = [];
     let x, y, z;
     for (let i = 0; i < steps; i++) {
-      x = Math.random() * 160 - 80;
+      x = Math.random() * 40 - 20;
       y = 0;
-      z = Math.random() * 160 - 80;
+      z = Math.random() * 40 - 20;
       coordinates.push({ x: x, y: y, z: z });
     }
     return coordinates;
@@ -95,4 +95,4 @@ const CoordinateGenerator = (function () {
   };
 })();
 
-export default CoordinateGenerator;
+export default Coordinates;
