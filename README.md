@@ -22,15 +22,14 @@ Run local server if necessary
 npm run server
 ```
 
-Run web application and open in a browser
+Run node js application to work with map
+
+```bash
+npm run builder
+```
+
+Run web application to display map data in browser
 
 ```bash
 npx vite
 ```
-
-## Notes
-
-- bricks with different base (size), one can be placed on the same or bigger base
-- emalute post requests to server
-- add blocks rotatation
-- add grouping by color

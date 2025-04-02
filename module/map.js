@@ -1,56 +1,52 @@
 import Sort from "../module/sort.js";
 
 class Map {
-  constructor(blocks, baseCoordinates) {
-    this._blocks = blocks;
-    this._baseCoordinates = baseCoordinates;
+  constructor(blocks = [], baseCoordinates = []) {
+    this.blocks = blocks;
+    this.baseCoordinates = baseCoordinates;
   }
 
   check() {
-    if (!this._blocks.length) {
+    if (!this.blocks.length) {
       throw new Error("blocks array cannot be empty");
     }
-    if (!this._baseCoordinates.length) {
+    if (!this.baseCoordinates.length) {
       throw new Error("baseCoordinates array cannot be empty");
     }
-  }
-
-  getBlocks() {
-    return this._blocks;
   }
 
   /**
    * Set blocks by chain
    */
-  setBlocksByChain() {
-    if (this._blocks.length != this._baseCoordinates.length) {
+  placeBlocksByChain() {
+    if (this.blocks.length != this.baseCoordinates.length) {
       throw new Error("blocks and baseCoordinates should have same length");
     }
-    this._blocks = this._blocks.map((block, index) => ({
+    this.blocks = this.blocks.map((block, index) => ({
       ...block,
-      position: this._baseCoordinates[index],
+      position: this.baseCoordinates[index],
     }));
   }
 
   /**
    * Set blocks grouped by colors into columns
    */
-  setBlocksGroupedByColors() {
-    Sort.sortByColor(this._blocks);
+  placeBlocksGroupedByColors() {
+    Sort.sortByColor(this.blocks);
 
     const stepSize = 20;
     let top = 0,
       step = 1,
       index = 0;
-    let coord = this._baseCoordinates[index];
+    let coord = this.baseCoordinates[index];
 
-    for (const block of this._blocks) {
+    for (const block of this.blocks) {
       if (block.convertedColor.hue < stepSize * step) {
         coord.y = top;
       } else {
         step++;
         top = 0;
-        coord = this._baseCoordinates[index];
+        coord = this.baseCoordinates[index];
         index++;
       }
       top += block.scale.y;
@@ -62,8 +58,8 @@ class Map {
 
   getData() {
     return {
-      blocks: this.getBlocks(),
-      baseCoordinates: this._baseCoordinates,
+      blocks: this.blocks,
+      baseCoordinates: this.baseCoordinates,
     };
   }
 }

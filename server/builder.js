@@ -7,21 +7,30 @@ import Map from "../module/map.js";
 const dataPath = "./data";
 let blocks = [],
   coords = [];
-
-for (let i = 0; i < 50; i++) {
-  blocks.push(Block.create());
-}
-// Sort.sortByHeight(blocks);
-
-coords = Coordinates.getArchimedeanSpiral(blocks.length);
-
 const map = new Map(blocks, coords);
 
-map.setBlocksGroupedByColors();
+setInterval(createMap, 5000);
+createMap();
 
-try {
-  fs.writeFileSync(`${dataPath}/map.json`, JSON.stringify(map.getData()));
-  console.info("ok");
-} catch (err) {
-  console.error(err);
+function createMap() {
+  blocks = coords = [];
+  for (let i = 0; i < 50; i++) {
+    blocks.push(Block.create());
+  }
+  // Sort.sortByHeight(blocks);
+
+  // coords = Coordinates.getSquareSpiral(blocks.length, 2);
+  coords = Coordinates.getArchimedeanSpiral(blocks.length);
+
+  map.blocks = blocks;
+  map.baseCoordinates = coords;
+
+  map.placeBlocksGroupedByColors();
+
+  try {
+    fs.writeFileSync(`${dataPath}/map.json`, JSON.stringify(map.getData()));
+    console.info("ok");
+  } catch (err) {
+    console.error(err);
+  }
 }
