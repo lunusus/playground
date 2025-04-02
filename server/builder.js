@@ -3,14 +3,25 @@ import Coordinates from "./../module/coordinates.js";
 import Block from "../module/block.js";
 import Map from "../module/map.js";
 // import Sort from "../module/sort.js";
+import api from "../module/api.js";
 
 const dataPath = "./data";
 let blocks = [],
   coords = [];
 const map = new Map(blocks, coords);
 
-setInterval(createMap, 5000);
-createMap();
+setInterval(fetchData, 5000);
+fetchData();
+
+async function fetchData() {
+  try {
+    const response = await api.get("/blocks");
+    blocks = response.data;
+    createMap();
+  } catch (error) {
+    console.error("API Error:", error);
+  }
+}
 
 function createMap() {
   blocks = coords = [];

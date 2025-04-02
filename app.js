@@ -1,12 +1,10 @@
 import * as THREE from "three";
 import { MapControls } from "three/examples/jsm/controls/MapControls.js";
-import ApiService from "./module/api.js";
+import api from "./module/api.js";
 
 let camera, controls, scene, renderer;
 let blocks,
   bricks = [];
-
-ApiService.useMock();
 
 // fetch data
 setInterval(fetchData, 5000);
@@ -22,8 +20,8 @@ draw();
 
 async function fetchData() {
   try {
-    const mapData = await ApiService.get("/map");
-    blocks = mapData.blocks;
+    const response = await api.get("/map");
+    blocks = response.data.blocks;
   } catch (error) {
     console.error("API Error:", error);
   }

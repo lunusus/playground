@@ -8,6 +8,8 @@ Playground for gametone
 
 [Vite](https://vite.dev/) used as a frontend build tool
 
+[Axios](https://axios-http.com/docs/intro) can run in the browser and nodejs with the same codebase
+
 ## Installation
 
 ```bash
@@ -32,4 +34,18 @@ Run web application to display map data in browser
 
 ```bash
 npx vite
+```
+
+Linter, Prettier
+
+```bash
+npm run lint
+```
+
+```bash
+npm run lint:fix
+```
+
+```bash
+npm run format
 ```
